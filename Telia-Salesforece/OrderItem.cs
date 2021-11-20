@@ -7,12 +7,13 @@ namespace Telia_Salesforece
     public class OrderItem
     {
         DateTime provisioningDate; 
-        
+        public DateTime ProvisioningDate { get => provisioningDate; set => provisioningDate = value; }
+
         public OrderItem() {
             ProvisioningDate = DateTime.Now;
         }
 
-        public DateTime ProvisioningDate { get => provisioningDate; set => provisioningDate = value; }
+        
     }
    
 }

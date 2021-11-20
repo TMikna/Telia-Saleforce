@@ -20,6 +20,7 @@ namespace TestProject
 
             Assert.ThrowsException<OrchestrationUnrecoverableException>(() => amt.executeBatch(orders));
         }
+
         [TestMethod]
         public void ProvisioningDateUpdated() {
             Order order = new Order();
@@ -40,21 +41,22 @@ namespace TestProject
         [TestMethod]
         public void ItemCountUpdated() {
             Order order = new Order();
-
             List<Order> orders = new List<Order>() { order };
             AssetManagementTask amt = new AssetManagementTask();
             amt.executeBatch(orders);
+
             Assert.AreEqual(0, orders[0].ItemCount, $"ItemCount failed to update. Expected: 0, Actual: {orders[0].ItemCount}");
 
 
             for (int i = 0; i < 2; i++)
                 order.OrderItems.Add(new OrderItem());
             amt.executeBatch(orders);
+
             Assert.AreEqual(2, orders[0].ItemCount, $"ItemCount failed to update. Expected: 2, Actual: {orders[0].ItemCount}");
         }
 
         [TestMethod]
-        public void SucessWithManyOrders() {
+        public void EfficientWithManyOrders() {
             List<Order> orders = new List<Order>();
             for(int i = 0; i<200; i++)
             {
@@ -66,12 +68,12 @@ namespace TestProject
            
             AssetManagementTask amt = new AssetManagementTask();
 
-
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
             amt.executeBatch(orders);
             stopWatch.Stop();
             long excecutionTime = stopWatch.ElapsedMilliseconds;
+
             Assert.IsTrue(excecutionTime < 100, $"Processing 200 orders took {excecutionTime/1000f} seconds, expected: less than 0.1s");        
         }
     }
